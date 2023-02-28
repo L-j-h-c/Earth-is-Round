@@ -19,13 +19,9 @@ end
 desc 'Upload QA App'
 lane :QA do |options|
   set_version(version: options[:version])
-
   version_number = "#{lane_context[SharedValues::VERSION_NUMBER]}(#{lane_context[SharedValues::BUILD_NUMBER]})"
 
-  commit_version_bump(
-    message: "Update version - #{version_number}",
-    xcodeproj: "./Projects/iOSApp/Application/EarthIsRound.xcodeproj"
-  )
+  git_commit(path: "./", message: "QA staging")
   add_git_tag(tag: "v#{options[:version]}")
   push_to_git_remote
 end
